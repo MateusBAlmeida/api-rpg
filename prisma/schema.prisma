@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,109 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model alignment {
+  id        Int         @id
+  name      String?     @db.VarChar
+  character character[]
+}
+
+model character {
+  id           Int           @id
+  name         String        @db.VarChar
+  idUser       Int?
+  background   String        @db.VarChar
+  idClass      Int?
+  idRace       Int?
+  idAlignment  Int?
+  life         Int
+  armorClass   Int
+  savingThroll Int
+  constitution Int
+  strength     Int
+  dexterity    Int
+  intelligence Int
+  wisdow       Int
+  charism      Int
+  experience   Int
+  level        Int
+  alignment    alignment?    @relation(fields: [idAlignment], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  class        Renamedclass? @relation("characterToclass", fields: [idClass], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  race         race?         @relation(fields: [idRace], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user         user?         @relation(fields: [idUser], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  grimoire     grimoire[]
+  inventory    inventory[]
+  talentSet    talentSet[]
+}
+
+/// This model has been renamed to 'Renamedclass' during introspection, because the original name 'class' is reserved.
+model Renamedclass {
+  id        Int         @id
+  name      String      @db.VarChar
+  character character[] @relation("characterToclass")
+
+  @@map("class")
+}
+
+model grimoire {
+  id          Int        @id
+  idMagic     Int?
+  idCharacter Int?
+  character   character? @relation(fields: [idCharacter], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  magic       magic?     @relation(fields: [idMagic], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model inventory {
+  id          Int        @id
+  idCharacter Int?
+  idItem      Int?
+  quantity    Int
+  character   character? @relation(fields: [idCharacter], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  item        item?      @relation(fields: [idItem], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model item {
+  id          Int         @id
+  name        String      @db.VarChar
+  description String      @db.VarChar
+  damage      String      @db.VarChar
+  modifier    Int
+  inventory   inventory[]
+}
+
+model magic {
+  id          Int        @id
+  name        String     @db.VarChar
+  description String     @db.VarChar
+  grimoire    grimoire[]
+}
+
+model race {
+  id        Int         @id
+  name      String?     @db.VarChar
+  character character[]
+}
+
+model talent {
+  id          Int         @id
+  name        String?     @db.VarChar
+  description String?     @db.VarChar
+  talentSet   talentSet[]
+}
+
+model talentSet {
+  id          Int        @id
+  idCharacter Int?
+  idTalent    Int?
+  character   character? @relation(fields: [idCharacter], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  talent      talent?    @relation(fields: [idTalent], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user {
+  id        Int         @id @default(autoincrement())
+  name      String?     @db.VarChar
+  password  String?     @db.VarChar
+  email     String?     @unique @db.VarChar
+  character character[]
 }
