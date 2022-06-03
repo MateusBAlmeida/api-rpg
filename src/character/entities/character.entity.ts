@@ -12,7 +12,7 @@ export class Character {
     constitution: number;
     strength: number;
     dexterity: number;
-    inteligence: number;
+    intelligence: number;
     wisdow: number;
     charism: number;
     experience: number;

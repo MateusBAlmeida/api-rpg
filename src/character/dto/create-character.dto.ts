@@ -30,32 +30,32 @@ export class CreateCharacterDto extends Character {
     savingThroll: number;
 
     @IsNumber()
-    @Min(1)
+    @Min(3)
     @Max(20)
     constitution: number;
 
     @IsNumber()
-    @Min(1)
+    @Min(3)
     @Max(20)
     strength: number;
 
     @IsNumber()
-    @Min(1)
+    @Min(3)
     @Max(20)
     dexterity: number;
 
     @IsNumber()
-    @Min(1)
+    @Min(3)
     @Max(20)
-    inteligence: number;
+    intelligence: number;
 
     @IsNumber()
-    @Min(1)
+    @Min(3)
     @Max(20)
     wisdow: number;
 
     @IsNumber()
-    @Min(1)
+    @Min(3)
     @Max(20)
     charism: number;
 

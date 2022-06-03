@@ -14,7 +14,7 @@ model alignment {
 }
 
 model character {
-  id           Int           @id
+  id           Int           @id @default(autoincrement())
   name         String        @db.VarChar
   idUser       Int?
   background   String        @db.VarChar

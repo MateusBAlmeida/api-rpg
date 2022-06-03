@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
+import { Character } from './entities/character.entity';
 
 @Injectable()
 export class CharacterService {
-  create(createCharacterDto: CreateCharacterDto) {
-    return 'This action adds a new character';
+  constructor(private readonly prisma: PrismaService){}
+  async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
+    const data: Prisma.characterCreateInput = createCharacterDto;
+    const createdCharacter = await this.prisma.character.create({data})
+
+    return createdCharacter;
   }
 
   findAll() {
