@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto extends User {
+ 
   @IsEmail()
   email: string;
 
@@ -18,7 +19,7 @@ export class CreateUserDto extends User {
     message: 'password too weak',
   })
   password: string;
-
+  
   @IsString()
   name: string;
 }
