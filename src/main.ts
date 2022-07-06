@@ -25,6 +25,19 @@ async function bootstrap() {
     }),
   );
 
+  app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    // handle OPTIONS method
+    if ('OPTIONS' == req.method) {
+      return res.sendStatus(200);
+    } else {
+      next();
+    }
+  });
+
   await app.listen(3333);
 }
 bootstrap();
