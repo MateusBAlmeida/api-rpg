@@ -27,7 +27,10 @@ export class AuthService {
 
         return {
             access_token: jwtToken,
-            account: await this.userService.findByEmail(payload.email),
+            account: {
+                name: await (await this.userService.findByEmail(payload.email)).name,
+                email: payload.email
+            },
         };
     }
     
